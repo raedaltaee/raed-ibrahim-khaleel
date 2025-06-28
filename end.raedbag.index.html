@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انفوجرافيك: الخيوط السحرية التي تربط العالم بسرعة الضوء</title>
+    <!-- Chosen Palette: Brilliant Blues (from colour combinations image) -->
+    <!-- Application Structure Plan: تم تصميم التطبيق كهيكل تفاعلي من صفحة واحدة، مقسمة إلى أقسام رئيسية للدورة التدريبية، وكل محاضرة ضمن قسم قابل للطي (details/summary). يركز الهيكل على عرض المحتوى النظري، الأهداف السلوكية، الأنشطة التفاعلية، والمهام التطبيقية لكل محاضرة بشكل منظم. كما يتضمن أقسامًا رئيسية لعرض بنية الدورة، صندوق الأدوات، قياس النجاح، تحليل التحديات، والآفاق المستقبلية. هذا الهيكل يعكس تمامًا التنظيم الجديد للحقيبة التدريبية ويوفر تجربة تعلم منظمة وتفاعلية، مع الحفاظ على تصميم عصري وجذاب. -->
+    <!-- Visualization & Content Choices:
+        - مخطط دائري (Doughnut Chart) لتوزيع الوقت (Chart.js): الهدف: إبلاغ بنسبة.
+        - مخطط شريطي (Bar Chart) لمستوى التفاعل مع الأدوات (Chart.js): الهدف: مقارنة كمية.
+        - مخطط شريطي مكدس (Stacked Bar Chart) لتحديات الفهم (Chart.js): الهدف: إظهار تركيبة وتوزيع.
+        - مخطط راداري (Radar Chart) لإمكانات التقنيات المستقبلية (Chart.js): الهدف: مقارنة متعددة الأبعاد.
+        - مخطط شريطي (Bar Chart) لمقارنة الألياف بالنحاس (Chart.js): الهدف: مقارنة كمية واضحة (المحاضرة 1).
+        - محاكاة حركة الضوء في الليف (HTML/CSS/JS): الهدف: إظهار التغيير بصريًا (المحاضرة 2).
+        - تبويبات للمقارنة بين أنواع الألياف (HTML/CSS/JS): الهدف: تنظيم ومقارنة المعلومات (المحاضرة 2).
+        - مطابقة المكونات والوظائف (HTML/CSS): نشاط تصوري (المحاضرة 3).
+        - مخطط عظم السمكة (Ishikawa Diagram) الثابت (HTML/CSS): الهدف: تنظيم الأسباب والنتائج بشكل هرمي (المحاضرة 5).
+        - جميع الفيديوهات المذكورة في الأنشطة تم استبدالها باقتراحات للبحث على YouTube لضمان العمل.
+        - تم استخدام HTML/CSS/JS فقط للرسوم البيانية والرسومات التخطيطية لتجنب SVG/Mermaid JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .kpi-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #0062D5; /* Primary Blue from "Brilliant Blues" */
+        }
+        .kpi-text {
+            font-size: 1.125rem;
+            color: #004AAD; /* Darker Blue from "Brilliant Blues" */
+            margin-top: 0.5rem;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2.5rem;
+            padding-right: 2.5rem;
+            border-right: 2px solid #3EC1F3; /* Accent Blue from "Brilliant Blues" */
+        }
+        .timeline-item:last-child {
+            border-right: none;
+        }
+        .timeline-dot {
+            position: absolute;
+            right: -11px;
+            top: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #ffffff;
+            border: 4px solid #0062D5; /* Primary Blue */
+            border-radius: 9999px;
+        }
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #004AAD; /* Darker Blue */
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+        }
+        details summary {
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-weight: 700;
+            color: #004AAD; /* Darker Blue */
+        }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        details summary::after {
+            content: '+';
+            font-size: 1.5em;
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        /* Fishbone Diagram Styles - New Static Implementation */
+        .fishbone-diagram {
+            position: relative;
+            width: 90%;
+            max-width: 700px;
+            height: 250px; /* Adjust height as needed */
+            margin: 40px auto;
+            border-top: 2px solid #0062D5; /* Main 'spine' - Primary Blue */
+        }
+
+        .fishbone-problem-statement {
+            position: absolute;
+            right: -10px; /* Adjust as needed */
+            top: 50%;
+            transform: translateY(-50%) translateX(100%);
+            padding: 10px 15px;
+            background-color: #004AAD; /* Darker Blue */
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .fishbone-category-line {
+            position: absolute;
+            width: 150px; /* Length of the bone */
+            height: 2px;
+            background-color: #3EC1F3; /* Accent Blue */
+            transform-origin: left center;
+            z-index: 5;
+        }
+
+        .fishbone-category-label {
+            position: absolute;
+            background-color: #8AE0F4; /* Lighter Accent Blue */
+            color: #004AAD; /* Darker Blue */
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 6;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Specific positioning for bones and labels */
+        /* Top bones */
+        .fishbone-category-line.top-1 { top: -20px; left: 15%; transform: rotate(-30deg); }
+        .fishbone-category-label.top-1 { top: -60px; left: calc(15% + 20px); }
+
+        .fishbone-category-line.top-2 { top: -20px; left: 45%; transform: rotate(-30deg); }
+        .fishbone-category-label.top-2 { top: -60px; left: calc(45% + 20px); }
+
+        /* Bottom bones */
+        .fishbone-category-line.bottom-1 { bottom: -20px; left: 15%; transform: rotate(30deg); }
+        .fishbone-category-label.bottom-1 { bottom: -60px; left: calc(15% + 20px); }
+
+        .fishbone-category-line.bottom-2 { bottom: -20px; left: 45%; transform: rotate(30deg); }
+        .fishbone-category-label.bottom-2 { bottom: -60px; left: calc(45% + 20px); }
+
+        /* Head of the fish */
+        .fishbone-head-line-1 {
+            position: absolute;
+            right: 0;
+            top: calc(50% - 20px);
+            width: 20px;
+            height: 2px;
+            background-color: #0062D5; /* Primary Blue */
+            transform: rotate(-45deg);
+            transform-origin: right center;
+            z-index: 5;
+        }
+        .fishbone-head-line-2 {
+            position: absolute;
+            right: 0;
+            top: calc(50% + 20px);
+            width: 20px;
+            height: 2px;
+            background-color: #0062D5; /* Primary Blue */
+            transform: rotate(45deg);
+            transform-origin: right center;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#004AAD] to-[#3EC1F3]">الخيوط السحرية</h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">نظرة بصرية داخل الحقيبة التدريبية التفاعلية للألياف البصرية وتطبيقاتها المتقدمة</p>
+        </header>
+
+        <main class="space-y-24">
+
+            <section id="anatomy">
+                <h2 class="section-title">بنية الدورة التدريبية</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-1 flex flex-col items-center justify-center">
+                        <div class="kpi-card w-full max-w-sm">
+                            <div class="kpi-number">19</div>
+                            <div class="kpi-text">ساعة تدريبية مكثفة</div>
+                        </div>
+                        <div class="card w-full max-w-sm mt-8">
+                           <h3 class="text-xl font-bold text-center text-[#004AAD] mb-4">توزيع الوقت</h3>
+                           <div class="chart-container" style="height: 250px;">
+                               <canvas id="timeAllocationChart"></canvas>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-1 lg:col-span-2 card">
+                        <h3 class="text-xl font-bold text-center text-[#004AAD] mb-6">رحلة التعلم: 6 محاضرات أساسية</h3>
+                        <div class="relative">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-lg text-[#0062D5]">1. الأساس السحري</h4>
+                                <p class="text-gray-600">مقدمة في سرعة الضوء ومزايا الألياف البصرية مقارنة بالوسائط التقليدية.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-lg text-[#0062D5]">2. سحر الضوء المحبوس</h4>
+                                <p class="text-gray-600">شرح الانعكاس الكلي الداخلي والتمييز بين أنواع الألياف (أحادي ومتعدد النمط).</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-lg text-[#0062D5]">3. بناء شبكة الضوء</h4>
+                                <p class="text-gray-600">تحديد مكونات النظام البصري: المرسلات، المستقبلات، والمكونات المساعدة.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-lg text-[#0062D5]">4. تطبيقات لا حصر لها</h4>
+                                <p class="text-gray-600">استكشاف استخدامات الألياف في الإنترنت، الطب، والاستشعارات.</p>
+                            </div>
+                             <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-lg text-[#0062D5]">5. التحديات والمستقبل</h4>
+                                <p class="text-gray-600">مناقشة التحديات التقنية، الآفاق المستقبلية، ودور الأخلاقيات والبحث العلمي.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h4 class="font-bold text-lg text-[#0062D5]">6. ثورة السعة الضوئية</h4>
+                                <p class="text-gray-600">فهم تقنية DWDM ودورها المحوري في زيادة سعة الشبكات الحديثة.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- المحاضرة الأولى: سرعة الضوء والألياف البصرية (الأساس السحري) -->
+            <section id="lec1" class="py-16 bg-white rounded-xl shadow-lg">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">المحاضرة 1: سرعة الضوء والألياف البصرية (الأساس السحري)</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">تُقدم هذه المحاضرة مفهوم سرعة الضوء وأهميته في الاتصالات الحديثة، وتُعرّف بالألياف البصرية ومزاياها التنافسية كعمود فقري للعالم الرقمي، مع لمحة تاريخية عن تطورها.</p>
+                </div>
+                
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المحتوى النظري</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">1. سرعة الضوء وأهميتها:</h3>
+                        <p>سرعة الضوء هي الحد الأقصى للسرعة في الكون ($3 \times 10^8$ م/ث في الفراغ). تأثيرها مباشر على زمن استجابة الشبكات (Latency)، وكلما زادت سرعة نقل المعلومة، زادت كفاءة الاتصال.</p>
+                        <h3 class="text-xl font-bold my-2">2. مفهوم الألياف البصرية:</h3>
+                        <p>خيوط رفيعة جدًا من الزجاج النقي أو البلاستيك، تستخدم لنقل الضوء على مسافات طويلة. تُشبه بـ"الأنفاق الضوئية" التي تحبس الضوء داخلها.</p>
+                        <h3 class="text-xl font-bold my-2">3. مقارنة الألياف البصرية بالأسلاك النحاسية:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>الأسلاك النحاسية:</strong> تعتمد على الإشارات الكهربائية، محدودة السرعة والمسافة وعرض النطاق، تتأثر بالتداخل الكهرومغناطيسي.</li>
+                            <li><strong>الألياف البصرية:</strong> تعتمد على الإشارات الضوئية، سرعات وعرض نطاق هائل، مسافات أطول، حصينة ضد التداخل، خفيفة الوزن وأصغر حجمًا.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold my-2">4. لمحة تاريخية:</h3>
+                        <p>من اكتشاف جون تيندال لمبدأ الانعكاس الكلي الداخلي، مرورًا بالهاتف الضوئي لـ ألكسندر جراهام بيل، وصولًا إلى الأبحاث الرائدة لكاول وكوك في 1966 التي مهدت لثورة الألياف البصرية والإنترنت.</p>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأهداف السلوكية</summary>
+                    <div class="p-2 text-gray-700">
+                        <ul class="list-disc pr-6 space-y-2">
+                            <li>أن يحدد المشارك مفهوم سرعة الضوء وأهميتها في تحديد كفاءة الاتصالات.</li>
+                            <li>أن يشرح المشارك المفهوم الأساسي للألياف البصرية ومقارنتها بالوسائط التقليدية.</li>
+                            <li>أن يستنتج المشارك المزايا التنافسية للألياف البصرية كوسط نقل للبيانات.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأنشطة التفاعلية</summary>
+                    <div class="p-2">
+                        <h3 class="text-xl font-bold mb-2">نشاط 1: عصف ذهني - سرعة الضوء</h3>
+                        <p class="text-gray-700 mb-4">كيف تتخيلون انتقال كميات هائلة من البيانات بسرعات جنونية؟ اكتب أفكارك أدناه:</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="3" placeholder="أفكارك هنا..."></textarea>
+
+                        <h3 class="text-xl font-bold mt-6 mb-2">نشاط 2: مقارنة الألياف البصرية بالأسلاك النحاسية</h3>
+                        <p class="text-gray-700 mb-4">شاهد الرسم البياني أدناه الذي يقارن بين الألياف البصرية والأسلاك النحاسية في خصائص الأداء الرئيسية.</p>
+                        <div class="chart-container">
+                            <canvas id="lec1ComparisonChart"></canvas>
+                        </div>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المهام التطبيقية</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">مهمة 1 (مهارة التفكير النقدي وأخلاقيات المهنة):</h3>
+                        <p>فكر في "التبعات الأخلاقية للانتشار السريع للمعلومات عبر الشبكات عالية السرعة: خصوصية البيانات والتأثير على المجتمع".</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="ملاحظاتك هنا..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2">مهمة 2 (مهارة الاستماع الفعال):</h3>
+                        <p>بعد النقاش، لخص أهم نقطة سمعتها من زميلك (أو من الأفكار العامة) في جملة واحدة.</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="تلخيصك هنا..."></textarea>
+                    </div>
+                </details>
+
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-[#FFC107]">تغذية راجعة سريعة:</p>
+                    <p class="text-gray-700">ما هو أهم شيء تعلمته اليوم عن سرعة الضوء والألياف البصرية؟</p>
+                </div>
+            </section>
+
+            <!-- المحاضرة الثانية: الانعكاس الكلي الداخلي (سحر الضوء المحبوس) -->
+            <section id="lec2" class="py-16 bg-white rounded-xl shadow-lg">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">المحاضرة 2: الانعكاس الكلي الداخلي (سحر الضوء المحبوس)</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">تُسلّط هذه المحاضرة الضوء على الظاهرة الفيزيائية الأساسية وراء عمل الألياف البصرية، الانعكاس الكلي الداخلي، وتفصّل بنية الليف وأنواعه الرئيسية (أحادي ومتعدد الأنماط).</p>
+                </div>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المحتوى النظري</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">1. مراجعة مفاهيم الضوء الأساسية:</h3>
+                        <p>الضوء كموجة. الانكسار (Refraction): انحراف الضوء عند مروره بين وسطين مختلفين الكثافة. مؤشر الانكسار (Refractive Index): قياس لمدى إبطاء الضوء في مادة معينة.</p>
+                        <h3 class="text-xl font-bold my-2">2. ظاهرة الانعكاس الكلي الداخلي (Total Internal Reflection - TIR):</h3>
+                        <p>تعريف: ارتداد الضوء بالكامل داخل وسط ذي كثافة بصرية أعلى، عندما يسقط على حد فاصل مع وسط ذي كثافة أقل بزاوية أكبر من الزاوية الحرجة.</p>
+                        <p>الشروط: انتقال الضوء من وسط مؤشر انكساره أعلى إلى وسط مؤشر انكساره أقل، وأن تكون زاوية السقوط أكبر من الزاوية الحرجة.</p>
+                        <h3 class="text-xl font-bold my-2">3. تطبيق TIR في الألياف البصرية:</h3>
+                        <p>شرح كيف يتعاون القلب (مؤشر انكسار أعلى) والغلاف (مؤشر انكسار أقل) لحبس الضوء داخل الليف عبر الانعكاسات المتتالية.</p>
+                        <h3 class="text-xl font-bold my-2">4. بنية الليف البصري الأساسية:</h3>
+                        <p><strong>القلب (Core):</strong> المسار الذي ينتقل عبره الضوء. <strong>الغلاف (Cladding):</strong> يحيط بالقلب وله مؤشر انكسار أقل لضمان الانعكاس الكلي. <strong>الطبقة الواقية (Buffer Coating/Jacket):</strong> طبقة خارجية للحماية الميكانيكية.</p>
+                        <h3 class="text-xl font-bold my-2">5. أنواع الألياف البصرية الرئيسية:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>ألياف أحادية النمط (Single-Mode Fiber - SMF):</strong> قلب ضيق جدًا (≈9 ميكرومتر)، تسمح بانتشار نمط واحد من الضوء، مثالية للمسافات الطويلة والسرعات العالية (مثل الكابلات البحرية).</li>
+                            <li><strong>ألياف متعددة الأنماط (Multi-Mode Fiber - MMF):</strong> قلب أوسع (≈50 ميكرومتر)، تسمح بانتشار عدة أنماط ضوئية، تستخدم للمسافات القصيرة (مثل الشبكات المحلية داخل المباني) وتكلفتها أقل.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأهداف السلوكية</summary>
+                    <div class="p-2 text-gray-700">
+                        <ul class="list-disc pr-6 space-y-2">
+                            <li>أن يوضح المشارك ظاهرة الانعكاس الكلي الداخلي وشروط حدوثها.</li>
+                            <li>أن يربط المشارك بين ظاهرة الانعكاس الكلي الداخلي ومبدأ عمل الليف البصري.</li>
+                            <li>أن يميز المشارك بين أنواع الألياف البصرية الرئيسية (أحادي النمط، متعدد الأنماط) بناءً على خصائصها واستخداماتها.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأنشطة التفاعلية</summary>
+                    <div class="p-2">
+                        <h3 class="text-xl font-bold mb-2">نشاط 1: محاكاة مسار الضوء</h3>
+                        <p class="text-gray-700 mb-4">انقر على الزر لرؤية تمثيل مبسط لمسار الضوء داخل الليف البصري وكيف ينعكس كليًا داخله. (نشاط تفاعلي محدود داخل المتصفح)</p>
+                        <div class="relative max-w-xs mx-auto p-4 border border-blue-300 rounded-lg overflow-hidden">
+                            <div class="bg-blue-200 rounded-full w-full h-24 flex items-center justify-center relative shadow-inner">
+                                <div class="bg-blue-300 rounded-full w-2/3 h-16 flex items-center justify-center relative">
+                                    <div class="bg-blue-400 rounded-full w-1/2 h-8 flex items-center justify-center relative">
+                                        <span class="text-white font-bold text-sm">قلب</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="light-path-animation" class="absolute w-2 h-2 bg-yellow-500 rounded-full" style="top: 20%; left: 0%; transition: all 1s ease-in-out;"></div>
+                            <button id="start-animation-btn" class="mt-4 px-4 py-2 bg-[#FFC107] text-white rounded-md hover:bg-[#FFB300] transition-colors duration-300">تشغيل مسار الضوء</button>
+                        </div>
+
+                        <h3 class="text-xl font-bold mt-6 mb-2">نشاط 2: التمييز بين أنواع الألياف</h3>
+                        <p class="text-gray-700 mb-4">استخدم الألسنة أدناه للتعرف على خصائص كل نوع من الألياف البصرية.</p>
+                        <div class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-center mb-4 border-b">
+                                <button id="btn-smf-lec2" class="tab-btn-lec2 active px-4 py-2 font-semibold border-b-2 border-[#FFC107]">أحادي النمط (SMF)</button>
+                                <button id="btn-mmf-lec2" class="tab-btn-lec2 px-4 py-2 font-semibold text-gray-500">متعدد الأنماط (MMF)</button>
+                            </div>
+                            <div id="content-smf-lec2" class="tab-content-lec2">
+                                <p class="text-gray-700 leading-relaxed"><strong>ألياف أحادية النمط (Single-Mode):</strong> لها قلب دقيق جدًا (≈9 ميكرومتر) يسمح بمرور نمط واحد من الضوء. تتميز بتشتت منخفض جدًا مما يجعلها مثالية للمسافات الطويلة جدًا (مثل الكابلات البحرية) والسرعات الفائقة.</p>
+                            </div>
+                            <div id="content-mmf-lec2" class="tab-content-lec2 hidden">
+                                <p class="text-gray-700 leading-relaxed"><strong>ألياف متعددة الأنماط (Multi-Mode):</strong> لها قلب أوسع (≈50 ميكرومتر) يسمح بمرور عدة أنماط من الضوء في نفس الوقت. تستخدم للمسافات القصيرة (مثل الشبكات المحلية داخل المباني) وتكلفتها أقل.</p>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المهام التطبيقية</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">مهمة 1 (تحسين الجودة):</h3>
+                        <p>إذا كنت مسؤولاً عن اختيار الألياف لشبكة محلية داخل مبنى، ما هو نوع الألياف الذي ستختاره؟ وما هي معايير الجودة التي ستنظر إليها في عملية الشراء؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="إجابتك هنا..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2">مهمة 2 (مهارة حل المشكلات):</h3>
+                        <p>سيناريو: واجه فريق صيانة شبكات الألياف البصرية مشكلة في ضعف الإشارة بشكل غير متوقع. اقترح خطوات أولية لتحديد سبب المشكلة.</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="خطواتك المقترحة..."></textarea>
+                    </div>
+                </details>
+
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-[#FFC107]">تغذية راجعة سريعة:</p>
+                    <p class="text-gray-700">ما هو المبدأ الأساسي لعمل الألياف البصرية الذي أدهشك أكثر؟</p>
+                </div>
+            </section>
+
+            <!-- المحاضرة الثالثة: بناء شبكة الضوء (مكونات النظام البصري) -->
+            <section id="lec3" class="py-16 bg-white rounded-xl shadow-lg">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">المحاضرة 3: بناء شبكة الضوء (مكونات النظام البصري)</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">تتعرف هذه المحاضرة على المكونات الرئيسية لنظام الاتصالات البصرية، بدءًا من المرسل الضوئي وحتى المستقبل، وتفهم وظيفة كل منها، بالإضافة إلى المكونات المساعدة.</p>
+                </div>
+                
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المحتوى النظري</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">1. مخطط نظام الاتصالات البصرية:</h3>
+                        <p>الهدف: تحويل الإشارات الكهربائية إلى ضوئية ونقلها ثم تحويلها إلى كهربائية مرة أخرى. المكونات الرئيسية: مرسل ضوئي (Optical Transmitter)، وسط ناقل (Optical Fiber)، مستقبل ضوئي (Optical Receiver).</p>
+                        <h3 class="text-xl font-bold my-2">2. المصادر الضوئية (Optical Sources):</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>LEDs (Light Emitting Diodes):</strong> تستخدم في أنظمة MMF، رخيصة الثمن، لكن أبطأ وأقل كفاءة.</li>
+                            <li><strong>Laser Diodes:</strong> تستخدم في أنظمة SMF، عالية السرعة والكفاءة، للمسافات الطويلة، أكثر تكلفة.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold my-2">3. الوسط الناقل: الكابل البصري:</h3>
+                        <p>بنية الليف الفردي وطبقات الحماية الإضافية في الكابل (مثل طبقات العزل والحماية من القوارض). أنواع الكابلات: داخلية، خارجية، بحرية.</p>
+                        <h3 class="text-xl font-bold my-2">4. المستقبلات الضوئية (Optical Detectors):</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>PIN Photodiode:</strong> بسيط، حساس، يستخدم في معظم التطبيقات.</li>
+                            <li><strong>APD (Avalanche Photodiode):</strong> أكثر حساسية، يستخدم في التطبيقات التي تتطلب كشف إشارات ضوئية ضعيفة جدًا.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold my-2">5. المكونات المساعدة:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>الموصلات (Connectors):</strong> تستخدم لربط الألياف بشكل قابل للفصل (مثل SC, LC, ST).</li>
+                            <li><strong>المقسمات (Splices):</strong> وصلات دائمة للألياف (مثل Fusion Splicing).</li>
+                            <li><strong>المضخمات الضوئية (Optical Amplifiers):</strong> تقوم بتضخيم الإشارة الضوئية مباشرة دون تحويلها إلى كهربائية، ضرورية للمسافات الطويلة جدًا (مثل EDFA).</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأهداف السلوكية</summary>
+                    <div class="p-2 text-gray-700">
+                        <ul class="list-disc pr-6 space-y-2">
+                            <li>أن يحدد المشارك المكونات الأساسية لنظام الاتصالات البصرية (مرسل، ليف، مستقبل).</li>
+                            <li>أن يصف المشارك أنواع مصادر الضوء (LED, Laser) ومستقبلات الضوء (PIN, APD) ووظائفها.</li>
+                            <li>أن يحلل المشارك دور المكونات المساعدة كالموصلات والمضخمات في أداء الشبكة.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأنشطة التفاعلية</summary>
+                    <div class="p-2">
+                        <h3 class="text-xl font-bold mb-2">نشاط 1: مطابقة المكونات والوظائف (نشاط تصوري)</h3>
+                        <p class="text-gray-700 mb-4">تخيل أنك تسحب كل مكون إلى وظيفته الصحيحة.</p>
+                        <div class="grid grid-cols-2 gap-4 text-center">
+                            <div class="card p-4 bg-gray-100">مرسل ضوئي</div>
+                            <div class="card p-4 bg-gray-100">ليف بصري</div>
+                            <div class="card p-4 bg-gray-100">مستقبل ضوئي</div>
+                            <div class="card p-4 bg-gray-100">مضخم بصري</div>
+                            <div class="card p-4 bg-blue-100 text-sm">يحول الإشارة الكهربائية إلى ضوئية</div>
+                            <div class="card p-4 bg-blue-100 text-sm">وسط نقل الضوء</div>
+                            <div class="card p-4 bg-blue-100 text-sm">يكشف الضوء ويحوله لكهرباء</div>
+                            <div class="card p-4 bg-blue-100 text-sm">يقوي الإشارة الضوئية</div>
+                        </div>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المهام التطبيقية</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">مهمة 1 (التفكير التصميمي):</h3>
+                        <p>إذا طُلب منك تصميم شبكة ألياف بصرية لربط مدينتين متباعدتين جدًا (أكثر من 100 كم)، ما هي أنواع المكونات (مرسل، مستقبل، مضخمات) التي ستفضل استخدامها ولماذا؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="إجابتك هنا..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2">مهمة 2 (الوعي بالسلامة):</h3>
+                        <p>ما هي أهم احتياطات السلامة الواجب اتخاذها عند التعامل مع كابلات الألياف البصرية ومصادر الليزر؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="احتياطات السلامة..."></textarea>
+                    </div>
+                </details>
+
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-[#FFC107]">تغذية راجعة سريعة:</p>
+                    <p class="text-gray-700">ما هو المكون الذي وجدته الأكثر أهمية في نظام الاتصالات البصرية ولماذا؟</p>
+                </div>
+            </section>
+
+            <!-- المحاضرة الرابعة: الألياف البصرية في عالمنا (تطبيقات لا حصر لها) -->
+            <section id="lec4" class="py-16 bg-white rounded-xl shadow-lg">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">المحاضرة 4: الألياف البصرية في عالمنا (تطبيقات لا حصر لها)</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">تُبرز هذه المحاضرة الدور المحوري للألياف البصرية في مختلف القطاعات، من الإنترنت فائق السرعة إلى الابتكارات في الطب والاستشعار، وتناقش الأثر التحولي لهذه التقنية.</p>
+                </div>
+                
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المحتوى النظري</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">1. الألياف البصرية في الاتصالات وتكنولوجيا المعلومات:</h3>
+                        <p><strong>العمود الفقري للإنترنت:</strong> (FTTx - Fiber to the X: FTTB, FTTH, FTTC)، الكابلات البحرية العابرة للقارات. الشبكات الهاتفية وشبكات الكمبيوتر (LAN/WAN) بسرعات غير مسبوقة.</p>
+                        <h3 class="text-xl font-bold my-2">2. الألياف البصرية في الطب والرعاية الصحية:</h3>
+                        <p><strong>المناظير الجراحية:</strong> رؤية داخل الجسم دون جراحة كبرى. <strong>الجراحة بالليزر:</strong> استخدام أشعة الليزر الدقيقة عبر الألياف. <strong>التصوير الطبي:</strong> تقنيات تصوير متقدمة.</p>
+                        <h3 class="text-xl font-bold my-2">3. الألياف البصرية في الاستشعارات (Optical Sensors):</h3>
+                        <p>مفهوم الاستشعارات البصرية: استخدام الألياف للكشف عن التغيرات في درجة الحرارة، الضغط، الانحناء، الاهتزازات، والمواد الكيميائية. مزاياها: دقة عالية، مناعة ضد التداخل الكهرومغناطيسي، إمكانية العمل في بيئات قاسية (متفجرات، إشعاع).</p>
+                        <h3 class="text-xl font-bold my-2">4. تطبيقات أخرى متنوعة:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>الإضاءة والديكور:</strong> إضاءة الأماكن الصعبة الوصول، تصميمات إضاءة مبتكرة.</li>
+                            <li><strong>البث التلفزيوني:</strong> نقل إشارات الفيديو عالية الدقة.</li>
+                            <li><strong>الصناعة والتحكم:</strong> في أنظمة التحكم الآلي والروبوتات.</li>
+                            <li><strong>الاستخدامات العسكرية والأمنية:</strong> اتصالات آمنة وسرية، أنظمة استشعار للمراقبة.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأهداف السلوكية</summary>
+                    <div class="p-2 text-gray-700">
+                        <ul class="list-disc pr-6 space-y-2">
+                            <li>أن يذكر المشارك أمثلة واقعية لتطبيقات الألياف البصرية في قطاعات مختلفة كالإنترنت، الطب، والاستشعار.</li>
+                            <li>أن يناقش المشارك الأثر التحولي للألياف البصرية على تطور هذه القطاعات.</li>
+                            <li>أن يقترح تطبيقات مبتكرة محتملة للألياف البصرية في المستقبل القريب.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأنشطة التفاعلية</summary>
+                    <div class="p-2">
+                        <h3 class="text-xl font-bold mb-2">نشاط 1: فيديو تطبيقي (اقتراح بحث)</h3>
+                        <p class="text-gray-700 mb-4">يمكنك البحث على يوتيوب عن "كيف يصل الإنترنت إلى منزلك عبر الألياف البصرية" لمشاهدة مثال عملي يربط النظرية بالواقع اليومي.</p>
+                        
+                        <h3 class="text-xl font-bold mt-6 mb-2">نشاط 2: عصف ذهني للتطبيقات المبتكرة</h3>
+                        <p class="text-gray-700 mb-4">في مجموعات، فكروا وقدموا ثلاثة تطبيقات مبتكرة جديدة للألياف البصرية في مجال غير تقليدي (مثل الزراعة الذكية، الفضاء، الفنون).</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="3" placeholder="اقتراحاتكم هنا..."></textarea>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المهام التطبيقية</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">مهمة 1 (الرؤية المستقبلية):</h3>
+                        <p>كيف يمكن للألياف البصرية أن تساهم في تطوير المدن الذكية أو تحسين جودة الحياة في المناطق الريفية؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="تصوراتك هنا..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2">مهمة 2 (بحث علمي مبسط):</h3>
+                        <p>ابحث عن مقال أو خبر حديث يتحدث عن تطبيق جديد ومبتكر للألياف البصرية واذكر أبرز نقاطه.</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="تفاصيل المقال/الخبر..."></textarea>
+                    </div>
+                </details>
+
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-[#FFC107]">تغذية راجعة سريعة:</p>
+                    <p class="text-gray-700">ما هو التطبيق الأكثر إثارة للاهتمام الذي تعلمته اليوم؟</p>
+                </div>
+            </section>
+
+            <!-- المحاضرة الخامسة: تحديات ومستقبل الألياف البصرية (آفاق أخلاقية وعلمية) -->
+            <section id="lec5" class="py-16 bg-white rounded-xl shadow-lg">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">المحاضرة 5: تحديات ومستقبل الألياف البصرية (آفاق أخلاقية وعلمية)</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">تستعرض هذه المحاضرة التحديات الحالية والمستقبلية التي تواجه تقنيات الألياف البصرية، وتُسلط الضوء على الآفاق العلمية الواعدة، مع التأكيد على أهمية أخلاقيات المهنة، الجودة، والبحث العلمي الرصين.</p>
+                </div>
+                
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المحتوى النظري</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">1. التحديات الحالية والمستقبلية:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>التكلفة الأولية:</strong> مرتفعة نسبيًا لمد البنية التحتية.</li>
+                            <li><strong>صعوبة التركيب والصيانة:</strong> تتطلب مهارات وأدوات متخصصة.</li>
+                            <li><strong>حساسية الكابلات:</strong> أكثر هشاشة من النحاس، تحتاج حماية.</li>
+                            <li><strong>أمان الشبكة:</strong> الحماية من التجسس والقرصنة رغم ميزاتها الأمنية.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold my-2">2. آفاق وتطورات مستقبلية واعدة:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>FTTx for Everything:</strong> توسيع الألياف لتشمل كل نقطة اتصال (أجهزة، مستشعرات، مركبات).</li>
+                            <li><strong>Radio over Fiber (RoF):</strong> دمج الألياف مع الشبكات اللاسلكية لـ 5G/6G.</li>
+                            <li><strong>All-Optical Networks:</strong> شبكات بصرية بالكامل لتقليل التأخير واستهلاك الطاقة.</li>
+                            <li><strong>الألياف المتطورة:</strong> مثل Hollow-Core Fibers (HCFs) وMulti-Core Fibers (MCFs) لزيادة السرعة والسعة.</li>
+                            <li><strong>الألياف الذكية والوظيفية:</strong> لأداء مهام الاستشعار المتقدم وتوليد الليزر.</li>
+                            <li><strong>تطبيقات الثورة الصناعية الرابعة:</strong> الحوسبة الضوئية، الشبكات العصبية الضوئية، الاتصالات الكمومية.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold my-2">3. أخلاقيات المهنة:</h3>
+                        <p>الشفافية، المسؤولية العلمية، احترام الملكية الفكرية، حيادية المعلومة، خصوصية البيانات، الأمن السيبراني، الاستخدام المسؤول للتكنولوجيا.</p>
+                        <h3 class="text-xl font-bold my-2">4. أهمية تطبيق الجودة:</h3>
+                        <p>جودة المحتوى والتدريب والمواد التعليمية، جودة التقييم، وبناء الثقة والموثوقية.</p>
+                        <h3 class="text-xl font-bold my-2">5. دور البحث العلمي الرصين:</h3>
+                        <p>أساس المحتوى، التحديث المستمر للمعرفة، المراجع الموثوقة، تشجيع التفكير النقدي، وأمثلة من الأبحاث الرائدة.</p>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأهداف السلوكية</summary>
+                    <div class="p-2 text-gray-700">
+                        <ul class="list-disc pr-6 space-y-2">
+                            <li>أن يلخص المشارك التحديات التقنية والاقتصادية المرتبطة بتقنيات الألياف البصرية.</li>
+                            <li>أن يستعرض المشارك أبرز الآفاق العلمية والتطورات المستقبلية الواعدة في هذا المجال.</li>
+                            <li>أن يقدر المشارك دور أخلاقيات المهنة، الجودة، والبحث العلمي الرصين في توجيه تطور واستخدام الألياف البصرية.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأنشطة التفاعلية</summary>
+                    <div class="p-2">
+                        <h3 class="text-xl font-bold mb-2">نشاط 1: حلقة نقاش - مستقبل الألياف</h3>
+                        <p class="text-gray-700 mb-4">"هل ستستمر الألياف البصرية في الهيمنة على الاتصالات؟ ولماذا؟" (تفكير جماعي مفتوح).</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="مشاركاتك في النقاش..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-6 mb-2">نشاط 2: تحليل مشكلات باستخدام مخطط عظم السمكة (تصوري)</h3>
+                        <p class="text-700 mb-4">الهدف: تحديد الأسباب الجذرية لمشكلة محددة. اختر تحديًا واحدًا في نشر الألياف البصرية (مثل التكلفة في المناطق الريفية) وحلل أسبابه الجذرية باستخدام هذا المخطط التصوري.</p>
+                        <div class="fishbone-diagram">
+                            <div class="fishbone-main-arrow"></div>
+                            <div class="fishbone-head-line-1"></div>
+                            <div class="fishbone-head-line-2"></div>
+                            <div class="fishbone-problem-statement">صعوبة فهم المفاهيم المعقدة</div>
+                            
+                            <div class="fishbone-category-label top-1">المدرب</div>
+                            <div class="fishbone-category-line top-1"></div>
+                            <div class="fishbone-category-label top-2">العملية</div>
+                            <div class="fishbone-category-line top-2"></div>
+                            
+                            <div class="fishbone-category-label bottom-1">المتدربون</div>
+                            <div class="fishbone-category-line bottom-1"></div>
+                            <div class="fishbone-category-label bottom-2">البيئة</div>
+                            <div class="fishbone-category-line bottom-2"></div>
+                        </div>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المهام التطبيقية</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">مهمة 1 (تطبيق عجلة ديمينج - PDCA):</h3>
+                        <p>طبق عجلة ديمينج (Plan, Do, Check, Act) على مشكلة ضعف جودة خدمة الإنترنت عبر الألياف في منطقة معينة.</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="خطوات PDCA..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2">مهمة 2 (الوعي الأخلاقي):</h3>
+                        <p>ما هي التبعات الأخلاقية للاعتماد المتزايد على سرعة الضوء في نقل البيانات (مثل خصوصية البيانات، المراقبة)؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="تأملاتك الأخلاقية..."></textarea>
+                    </div>
+                </details>
+
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-[#FFC107]">تغذية راجعة سريعة:</p>
+                    <p class="text-gray-700">ما هو التطور المستقبلي للألياف البصرية الذي أثار اهتمامك أكثر؟</p>
+                </div>
+            </section>
+
+            <!-- المحاضرة السادسة: تقنية DWDM (ثورة السعة الضوئية) -->
+            <section id="lec6" class="py-16 bg-white rounded-xl shadow-lg">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-2">المحاضرة 6: تقنية DWDM (ثورة السعة الضوئية)</h2>
+                    <p class="max-w-2xl mx-auto text-gray-600">تستعرض هذه المحاضرة تقنية DWDM التي أحدثت ثورة في سعة الشبكات الضوئية، وتشرح مبادئها العلمية ومكوناتها الرئيسية وتطبيقاتها الاستراتيجية في شبكات الاتصالات الحديثة.</p>
+                </div>
+                
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المحتوى النظري</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">1. تحدي السعة والحاجة لـ DWDM:</h3>
+                        <p>النمو الهائل في استهلاك البيانات يتطلب زيادة مستمرة في سعة الشبكات. تقنية DWDM ظهرت كحل لمضاعفة السعة عبر نفس الليف البصري دون الحاجة لمد كابلات إضافية.</p>
+                        <h3 class="text-xl font-bold my-2">2. مفهوم DWDM:</h3>
+                        <p>DWDM تعني "Multiplexing الكثافة بتقسيم الطول الموجي" (Dense Wavelength Division Multiplexing). هي تقنية لمضاعفة إشارات ضوئية متعددة، كل منها بطول موجي مختلف (لون ضوء مختلف)، عبر ليف بصري واحد. تُشبه بـ"عبور ألوان قوس قزح في أنبوب واحد".</p>
+                        <h3 class="text-xl font-bold my-2">3. المبدأ العلمي لـ DWDM:</h3>
+                        <p><strong>المضاعفة (Multiplexing):</strong> دمج عدة إشارات ضوئية مختلفة الأطوال الموجية في حزمة واحدة لدخول الليف. <strong>إزالة المضاعفة (Demultiplexing):</strong> فصل هذه الأطوال الموجية عند الطرف المستقبل. أهمية النوافذ الطيفية (C-band, L-band) للاستخدام الأمثل للطيف الضوئي.</p>
+                        <h3 class="text-xl font-bold my-2">4. المكونات الأساسية لنظام DWDM:</h3>
+                        <ul class="list-disc pr-5">
+                            <li><strong>المرسلات الضوئية (Transmitters):</strong> تولد إشارات ليزرية بأطوال موجية دقيقة ومستقرة.</li>
+                            <li><strong>المضاعف/مزيل المضاعفة (Mux/Demux):</strong> مكونات بصرية تقوم بدمج وفصل الأطوال الموجية.</li>
+                            <li><strong>المضخمات الضوئية (EDFA):</strong> تستخدم لتضخيم الإشارة متعددة الأطوال الموجية.</li>
+                            <li><strong>معوضات التشتت (Dispersion Compensators):</strong> لتقليل تأثير تشتت الإشارة على المسافات الطويلة.</li>
+                            <li><strong>المرشحات الضوئية (Optical Filters):</strong> لفصل الأطوال الموجية الفردية.</li>
+                        </ul>
+                        <h3 class="text-xl font-bold my-2">5. تطبيقات DWDM الاستراتيجية:</h3>
+                        <p>الدور المحوري في الشبكات الأساسية (Backbone Networks)، الكابلات البحرية العابرة للقارات، ربط مراكز البيانات، وشبكات مزودي الخدمات الكبار لزيادة السعة بتكلفة فعالة.</p>
+                        <h3 class="text-xl font-bold my-2">6. مستقبل DWDM:</h3>
+                        <p>تطورات مستمرة لزيادة عدد القنوات لكل ليف (Ultra-DWDM) وتحسين كفاءة استخدام الطيف.</p>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأهداف السلوكية</summary>
+                    <div class="p-2 text-gray-700">
+                        <ul class="list-disc pr-6 space-y-2">
+                            <li>أن يشرح المشارك مفهوم تقنية DWDM ودورها في زيادة السعة الهائلة للألياف البصرية.</li>
+                            <li>أن يوضح المشارك المبدأ العلمي لـ DWDM وكيفية تجميع وفصل الأطوال الموجية.</li>
+                            <li>أن يحدد المشارك المكونات الرئيسية لنظام DWDM وتطبيقاتها الاستراتيجية في الشبكات الحديثة.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>الأنشطة التفاعلية</summary>
+                    <div class="p-2">
+                        <h3 class="text-xl font-bold mb-2">نشاط 1: فيديو توضيحي لـ DWDM</h3>
+                        <p class="text-gray-700 mb-4">يمكنك مشاهدة شرح مبسط لتقنية DWDM عبر هذا الرابط: <a href="https://raedaltaee.github.io/raed-almsari/" target="_blank" class="text-[#0062D5] hover:underline">فيديو شرح DWDM</a></p>
+                        
+                        <h3 class="text-xl font-bold mt-6 mb-2">نشاط 2: تمرين تصميم نظام DWDM مبسط</h3>
+                        <p class="text-gray-700 mb-4">ارسم مخططًا مبسطًا لنظام DWDM يربط نقطتين (A و B) باستخدام ليف بصري واحد، مع تحديد المكونات الأساسية.</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="3" placeholder="وصف تصميمك أو أفكارك..."></textarea>
+                    </div>
+                </details>
+
+                <details open class="mb-6 bg-blue-50 p-4 rounded-lg">
+                    <summary>المهام التطبيقية</summary>
+                    <div class="p-2 text-gray-700">
+                        <h3 class="text-xl font-bold mb-2">مهمة 1 (تحليل الأثر):</h3>
+                        <p>كيف أثرت تقنية DWDM على حياتنا اليومية (مثل سرعة الإنترنت، الاتصالات الدولية)؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="تأثيرات DWDM..."></textarea>
+                        
+                        <h3 class="text-xl font-bold mt-4 mb-2">مهمة 2 (اتخاذ القرار التقني):</h3>
+                        <p>إذا كان لديك ليف بصري واحد وتريد زيادة سعته 10 أضعاف، ما هي التقنية التي ستستخدمها ولماذا؟</p>
+                        <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#42A5F5]" rows="2" placeholder="التقنية والسبب..."></textarea>
+                    </div>
+                </details>
+
+                <div class="text-center mt-6">
+                    <p class="font-bold text-lg text-[#FFC107]">تغذية راجعة سريعة:</p>
+                    <p class="text-gray-700">ما هو التشبيه الذي استخدمناه لتقنية DWDM، ولماذا هو فعال في الشرح؟</p>
+                </div>
+            </section>
+
+            <section id="toolkit">
+                <h2 class="section-title">صندوق الأدوات التفاعلي</h2>
+                <div class="card">
+                     <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">تعتمد الحقيبة على مجموعة متنوعة من التقنيات لضمان تجربة تعليمية غنية وتفاعلية، تركز على المشاركة الفعالة بدلاً من التلقين السلبي.</p>
+                    <div class="chart-container">
+                        <canvas id="toolsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="pdca">
+                <h2 class="section-title">قياس النجاح والتحسين المستمر</h2>
+                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">لا يقتصر النجاح على اجتياز الاختبارات، بل يمتد لقياس الأثر الفعلي للتدريب. نستخدم منهجية PDCA (خطط، نفذ، تحقق، عدّل) لضمان التحسين المستمر لجودة الحقيبة التدريبية.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="card p-6 flex flex-col items-center">
+                        <div class="bg-[#8AE0F4] text-[#004AAD] rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-4">1</div>
+                        <h3 class="text-xl font-bold text-[#004AAD] mb-2">خطط (Plan)</h3>
+                        <p class="text-gray-600">تحديد الأهداف وتعديل المحتوى بناءً على احتياجات المتدربين.</p>
+                    </div>
+                    <div class="card p-6 flex flex-col items-center">
+                        <div class="bg-[#3EC1F3] text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-4">2</div>
+                        <h3 class="text-xl font-bold text-[#004AAD] mb-2">نفذ (Do)</h3>
+                        <p class="text-gray-600">تطبيق الخطة باستخدام أساليب تفاعلية وبيئة تعليمية آمنة.</p>
+                    </div>
+                    <div class="card p-6 flex flex-col items-center">
+                        <div class="bg-[#0062D5] text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-4">3</div>
+                        <h3 class="text-xl font-bold text-[#004AAD] mb-2">تحقق (Check)</h3>
+                        <p class="text-gray-600">مراقبة التفاعل وجمع الملاحظات الفورية وتحليل النتائج.</p>
+                    </div>
+                    <div class="card p-6 flex flex-col items-center">
+                        <div class="bg-[#004AAD] text-white rounded-full h-16 w-16 flex items-center justify-center text-2xl font-bold mb-4">4</div>
+                        <h3 class="text-xl font-bold text-[#004AAD] mb-2">عدّل (Act)</h3>
+                        <p class="text-gray-600">توثيق أفضل الممارسات وتطوير المواد لضمان التحسين المستمر.</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="challenges">
+                <h2 class="section-title">مواجهة التحديات: تحليل أسباب الصعوبات</h2>
+                <div class="card">
+                    <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">لتحقيق أقصى استفادة، قمنا بتحليل الأسباب الجذرية التي قد تعيق فهم المفاهيم المعقدة باستخدام مخطط "عظم السمكة". يوضح الرسم البياني التالي أبرز هذه التحديات المصنفة حسب فئاتها.</p>
+                    <div class="chart-container">
+                        <canvas id="challengesChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="future">
+                <h2 class="section-title">المستقبل مشرق: آفاق علمية جديدة</h2>
+                <div class="card">
+                     <p class="text-center text-gray-600 max-w-2xl mx-auto mb-8">الألياف البصرية ليست مجرد تقنية حالية، بل هي حجر الزاوية لثورات تقنية قادمة. يستعرض الرسم البياني التالي مقارنة بين أبرز التقنيات المستقبلية بناءً على عدة معايير حيوية.</p>
+                    <div class="chart-container">
+                        <canvas id="futureTechChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-24 border-t pt-8 border-gray-200">
+            <div class="mb-6 bg-blue-50 p-6 rounded-lg shadow-md max-w-3xl mx-auto">
+                <p class="text-gray-700 leading-relaxed mb-4">يسعدني ويشرفني أن أقدم لحضراتكم الحقيبة التدريبية التفاعلية الشاملة "<b>DWDM technology & it's applications</b>"</p>
+                <p class="text-gray-700 leading-relaxed">أرجو أن تنال إعجابكم ولكم مني فائق الشكر والاحترام والتقدير.</p>
+                <p class="text-gray-800 font-bold mt-6 mb-4 text-xl">لإجراء الامتحان النهائي للدورة، يرجى النقر على الرابط التالي:</p>
+                <a href="https://docs.google.com/forms/d/1IxXgNbXyIZMLkpZM610g85dh5SEp7wq2Im3Z0klq9T4/viewform" target="_blank" class="inline-block px-6 py-3 bg-[#0062D5] text-white font-bold rounded-lg shadow-md hover:bg-[#004AAD] transition-colors duration-300">الامتحان النهائي</a>
+            </div>
+            <p class="text-gray-500 mb-2">شكراً جزيلاً لحسن إصغائكم، وكلي آذان صاغية للاستماع لأسئلتكم والاستئناس بملاحظاتكم القيمة.</p>
+            <p class="text-gray-500 font-bold">اسم المصمم: رائد إبراهيم خليل إبراهيم</p>
+            <p class="text-gray-500">ماجستير هندسة اتصالات، الجامعة المستنصرية</p>
+            <p class="text-gray-500">رئيس مهندسين في ديوان الوقف الشيعي</p>
+            <div class="text-gray-500 mt-4">
+                <p>البريد الإلكتروني: <a href="mailto:raedalmsari79@gmail.com" class="text-[#0062D5] hover:underline">raedalmsari79@gmail.com</a></p>
+                <p>واتساب: 07703415555</p>
+                <p>تليجرام: <a href="https://t.me/EngRaedAI" target="_blank" class="text-[#0062D5] hover:underline">@EngRaedAI</a></p>
+            </div>
+            <p class="text-gray-500 mt-4">تم إنشاء هذا الانفوجرافيك لتوضيح محتويات حقيبة "الخيوط السحرية" التدريبية.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const FONT_COLOR = '#374151'; 
+        const GRID_COLOR = '#e5e7eb';
+
+        function wrapText(text, maxLength) {
+            if (typeof text !== 'string' || text.length <= maxLength) {
+                return text;
+            }
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) {
+                lines.push(currentLine.trim());
+            }
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            } else {
+                return label;
+            }
+        };
+
+        const chartColors = {
+            primary: '#0062D5', /* Primary Blue from "Brilliant Blues" */
+            secondary: '#3EC1F3', /* Accent Blue from "Brilliant Blues" */
+            accent: '#8AE0F4', /* Lighter Accent Blue from "Brilliant Blues" */
+            dark: '#004AAD', /* Darker Blue from "Brilliant Blues" */
+            light: '#FFFFFF' /* White */
+        };
+        
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: FONT_COLOR,
+                        font: {
+                            family: "'Tajawal', sans-serif"
+                        }
+                    }
+                },
+                tooltip: {
+                    titleFont: { family: "'Tajawal', sans-serif" },
+                    bodyFont: { family: "'Tajawal', sans-serif" },
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } },
+                    grid: { color: GRID_COLOR }
+                },
+                y: {
+                    ticks: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } },
+                    grid: { color: GRID_COLOR },
+                    beginAtZero: true
+                }
+            }
+        };
+
+        // Chart for Time Allocation (Doughnut)
+        new Chart(document.getElementById('timeAllocationChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['محتوى تدريبي', 'تقييم نهائي'],
+                datasets: [{
+                    label: 'توزيع الوقت',
+                    data: [18, 1],
+                    backgroundColor: [chartColors.primary, chartColors.accent],
+                    borderColor: [chartColors.light, chartColors.light],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                         labels: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart for Tools Interaction (Bar)
+        new Chart(document.getElementById('toolsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['المحاكاة (PhET)', wrapText('الاختبارات التفاعلية (Kahoot, Slido)', 16), wrapText('العصف الذهني (Miro, Mural)', 16), 'العروض التقديمية'],
+                datasets: [{
+                    label: 'مستوى التفاعل',
+                    data: [90, 85, 80, 60],
+                    backgroundColor: [chartColors.secondary, chartColors.primary, chartColors.secondary, chartColors.primary],
+                    borderColor: chartColors.dark,
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: { ...defaultChartOptions, indexAxis: 'y' }
+        });
+
+        // Chart for Challenges (Stacked Bar)
+        new Chart(document.getElementById('challengesChart'), {
+            type: 'bar',
+            data: {
+                labels: ['المدرب', 'المتدربون', 'العملية', 'البيئة'],
+                datasets: [
+                    {
+                        label: 'عدم تبسيط المفاهيم',
+                        data: [8, 0, 0, 0],
+                        backgroundColor: chartColors.primary,
+                    },
+                    {
+                        label: 'خلفيات علمية متفاوتة',
+                        data: [0, 7, 0, 0],
+                        backgroundColor: chartColors.secondary,
+                    },
+                    {
+                        label: 'غياب الأمثلة العملية',
+                        data: [0, 0, 9, 0],
+                        backgroundColor: chartColors.primary,
+                    },
+                    {
+                        label: 'بيئة تعلم غير محفزة',
+                        data: [0, 0, 0, 5],
+                         backgroundColor: chartColors.secondary,
+                    }
+                ]
+            },
+            options: {
+                ...defaultChartOptions,
+                scales: {
+                    x: { stacked: true, ticks: { color: FONT_COLOR }, grid: { color: GRID_COLOR } },
+                    y: { stacked: true, ticks: { color: FONT_COLOR }, grid: { color: GRID_COLOR } }
+                },
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart for Future Technologies (Radar)
+        new Chart(document.getElementById('futureTechChart'), {
+            type: 'radar',
+            data: {
+                labels: [wrapText('ألياف ذات نواة مجوفة (HCFs)', 16), wrapText('الحوسبة الضوئية', 16), wrapText('الاتصالات الكمومية', 16), wrapText('الألياف متعددة النوى (MCFs)', 16)],
+                datasets: [{
+                    label: 'إمكانات النمو',
+                    data: [8, 9, 10, 7],
+                    fill: true,
+                    backgroundColor: 'rgba(62, 193, 243, 0.2)', /* secondary with transparency */
+                    borderColor: 'rgb(62, 193, 243)', /* secondary */
+                    pointBackgroundColor: 'rgb(62, 193, 243)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(62, 193, 243)'
+                }, {
+                    label: 'الجدوى الحالية',
+                    data: [6, 4, 3, 7],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 98, 213, 0.2)', /* primary with transparency */
+                    borderColor: 'rgb(0, 98, 213)', /* primary */
+                    pointBackgroundColor: 'rgb(0, 98, 213)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(0, 98, 213)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                     legend: {
+                        position: 'top',
+                         labels: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: GRID_COLOR },
+                        grid: { color: GRID_COLOR },
+                        pointLabels: { 
+                            color: FONT_COLOR, 
+                            font: { 
+                                family: "'Tajawal', sans-serif",
+                                size: 12
+                            } 
+                        },
+                        ticks: {
+                            backdropColor: '#f0f4f8', /* Match body background for better contrast */
+                            color: FONT_COLOR
+                        }
+                    }
+                }
+            }
+        });
+
+        // Lecture 1 Comparison Chart (Bar)
+        new Chart(document.getElementById('lec1ComparisonChart'), {
+            type: 'bar',
+            data: {
+                labels: ['السرعة', 'عرض النطاق', 'المسافة', 'الحصانة ضد التداخل'],
+                datasets: [
+                    {
+                        label: 'ألياف بصرية',
+                        data: [100, 95, 90, 98],
+                        backgroundColor: chartColors.primary,
+                        borderColor: chartColors.dark,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'أسلاك نحاسية',
+                        data: [60, 40, 30, 50],
+                        backgroundColor: chartColors.secondary,
+                        borderColor: chartColors.dark,
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                ...defaultChartOptions,
+                scales: {
+                    x: {
+                        stacked: false,
+                        ticks: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } },
+                        grid: { color: GRID_COLOR }
+                    },
+                    y: {
+                        stacked: false,
+                        ticks: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } },
+                        grid: { color: GRID_COLOR },
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: FONT_COLOR, font: { family: "'Tajawal', sans-serif" } }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                }
+            }
+        });
+
+        // Lecture 2 Light Path Animation
+        document.getElementById('start-animation-btn').addEventListener('click', function() {
+            const lightPath = document.getElementById('light-path-animation');
+            lightPath.style.transition = 'none'; // Reset transition
+            lightPath.style.left = '0%';
+            lightPath.style.top = '20%';
+            lightPath.style.transform = 'rotate(0deg)'; // Reset rotation
+            setTimeout(() => {
+                lightPath.style.transition = 'all 1.5s ease-in-out';
+                lightPath.style.left = '90%';
+                lightPath.style.top = '80%';
+                lightPath.style.transform = 'rotate(180deg)'; // Simulate reflection
+                setTimeout(() => {
+                    lightPath.style.transition = 'all 1.5s ease-in-out';
+                    lightPath.style.left = '0%';
+                    lightPath.style.top = '20%';
+                    lightPath.style.transform = 'rotate(0deg)'; // Simulate reflection back
+                }, 1500);
+            }, 50);
+        });
+
+        // Lecture 2 Tabs
+        document.querySelectorAll('.tab-btn-lec2').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn-lec2').forEach(btn => {
+                    btn.classList.remove('active', 'border-b-2', 'border-[#FFC107]');
+                    btn.classList.add('text-gray-500');
+                });
+                document.querySelectorAll('.tab-content-lec2').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                button.classList.add('active', 'border-b-2', 'border-[#FFC107]');
+                button.classList.remove('text-gray-500');
+                document.getElementById(button.id.replace('btn-', 'content-')).classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
